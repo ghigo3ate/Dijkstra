@@ -32,22 +32,20 @@ outputResults graph distances predecessors start end = do
   writeFile "output.txt" graphviz
   putStrLn "Graphviz output written to output.txt"
 
-main :: IO ()
-main = do
-  args <- getArgs
-  let [fileName, start, end] = args
+processGraph :: String -> String -> String -> IO ()
+processGraph fileName start end = do
   content <- readFile fileName
   let graph = parseGraph content
       (distances, predecessors) = dijkstra graph start
   outputResults graph distances predecessors start end
 
+main :: IO ()
+main = do
+  args <- getArgs
+  case args of
+    [fileName, start, end] -> processGraph fileName start end
+    _ -> putStrLn "Usage: program <fileName> <startNode> <endNode>"
+
 -- for testing
 runMain :: IO ()
-runMain = do
-  let fileName = "graph.txt"
-      start = "1"
-      end = "5"
-  content <- readFile fileName
-  let graph = parseGraph content
-      (distances, predecessors) = dijkstra graph start
-  outputResults graph distances predecessors start end
+runMain = processGraph "graph.txt" "1" "5"

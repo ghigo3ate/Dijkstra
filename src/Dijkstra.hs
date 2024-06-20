@@ -21,7 +21,9 @@ dijkstra graph start = dijkstra' (insert start 0 empty) Map.empty Map.empty
               (pq'', distances', predecessors') = foldl (updateNeighbor u dist) (pq', distances, predecessors) neighbors
           in dijkstra' pq'' distances' predecessors'
 
-    updateNeighbor :: Node -> Distance -> (PriorityQueue Node Distance, Map.Map Node Distance, Map.Map Node Predecessor) -> (Node, Distance) -> (PriorityQueue Node Distance, Map.Map Node Distance, Map.Map Node Predecessor)
+    updateNeighbor :: Node -> Distance -> (PriorityQueue Node Distance, Map.Map Node Distance,
+                    Map.Map Node Predecessor) -> (Node, Distance) -> (PriorityQueue Node Distance,
+                    Map.Map Node Distance, Map.Map Node Predecessor)
     updateNeighbor u dist (pq, distances, predecessors) (v, weight) =
       let alt = dist + weight
       in case Map.lookup v distances of
